@@ -8,29 +8,74 @@
     />
     <title>Videos</title>
     <link rel="stylesheet" href="./layui/css/layui.css" />
+    <link rel="stylesheet" href="./chimee/chimee-mobile-player.browser.css" />
+    <script src="https://s.ssl.qhres.com/static/af3c1d4b462cc178/jquery.js"></script>
+    <script src="../layui/layui.js"></script>
+
+    <style>
+      *::-webkit-media-controls-panel {
+        display: none !important;
+        -webkit-appearance: none;
+      }
+
+      /* Old shadow dom for play button */
+
+      *::-webkit-media-controls-play-button {
+        display: none !important;
+        -webkit-appearance: none;
+      }
+
+      /* New shadow dom for play button */
+
+      /* This one works! */
+
+      *::-webkit-media-controls-start-playback-button {
+        display: none !important;
+        -webkit-appearance: none;
+      }
+
+      video .media-controls-container {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <!-- 你的HTML代码 -->
-    <div class="layui-tab">
-      <ul class="layui-tab-title">
-        <li class="layui-this">标题一</li>
-        <li>标题二</li>
-      </ul>
-      <div class="layui-tab-content">
-        <div class="layui-tab-item layui-show">内容1</div>
-        <div class="layui-tab-item">内容2</div>
-      </div>
-    </div>
+    <ul class="layui-nav" lay-filter="">
+      <li class="layui-nav-item layui-this"><a href="">最新</a></li>
+      <li class="layui-nav-item"><a href="">最佳</a></li>
+    </ul>
 
-    <script src="./layui/layui.js"></script>
+    <section id="wrapper" class="chimee-container">
+      <video tabindex="-1"></video>
+    </section>
+
     <script>
-      //一般直接写在一个js文件中
-      layui.use(["layer", "form"], function() {
-        var layer = layui.layer,
-          form = layui.form;
+      //config的设置是全局的
+      layui
+        .config({
+          base: "./mod/" //假设这是你存放拓展模块的根目录
+        })
+        .extend({
+          //设定模块别名
+          net: "net" //如果 mymod.js 是在根目录，也可以不用设定别名
+        });
 
-        layer.msg("Hello World");
+      layui.use(["net"], function() {
+        var net = layui.net;
+
+        net.hello("World!"); //弹出 Hello World!
+      });
+
+      //注意：导航 依赖 element 模块，否则无法进行功能性操作
+      layui.use("element", function() {
+        var element = layui.element;
+
+        //…
       });
     </script>
+
+    <script src="./chimee/chimee-mobile-player.browser.js"></script>
+    <script src="./chimee/player.js"></script>
   </body>
 </html>
